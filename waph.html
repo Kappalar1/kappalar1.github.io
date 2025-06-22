@@ -1,1 +1,211 @@
-WAPH File
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WAPH Profile - Raja Narendra Kumar Kappala</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      text-align: center;
+    }
+    #digit-clock {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    #email {
+      color: blue;
+      text-decoration: underline;
+      cursor: pointer;
+      margin: 10px;
+    }
+    #analog-clock {
+      background-color: #999;
+      border-radius: 50%;
+      margin: 20px auto;
+      display: block;
+    }
+    input[type="text"] {
+      width: 200px;
+      padding: 5px;
+    }
+    .button {
+      margin: 5px;
+      padding: 5px 10px;
+    }
+    #response {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <h1>Raja Narendra Kumar Kappala</h1>
+  <div id="digit-clock"></div>
+
+  <img src="images/myheadshot.jpeg" alt="My Headshot" width="150" height="150"><br>
+  <div id="email" onclick="toggleEmail()">Show my email</div>
+
+  <hr>
+  <h3>Experiments with JavaScript Code</h3>
+  <i>Inline JavaScript</i><br>
+  <div id="date" onclick="document.getElementById('date').innerText = Date()" style="cursor: pointer;">
+    Click here to show Date()
+  </div>
+  <br><br>
+  Press Any Key: <input onkeyup="console.log('You pressed a key')" /><br><br>
+
+  <canvas id="analog-clock" width="200" height="200"></canvas>
+
+  <h3>Ajax Request</h3>
+  Your Input:
+  <input type="text" id="data" placeholder="Enter name or text">
+  <input type="button" class="button" value="Ajax Echo" onclick="getEcho()">
+  <input type="button" class="button" value="jQuery Ajax GET" onclick="jQueryAjax()">
+  <input type="button" class="button" value="jQuery Ajax POST" onclick="jQueryAjaxPost()">
+  <input type="button" class="button" value="Guess Age" onclick="guessAge($('#data').val())">
+  <div id="response"></div>
+
+  <script>
+    // Digital Clock
+    function updateClock() {
+      document.getElementById("digit-clock").innerText = new Date().toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Email Toggle
+    let emailShown = false;
+    function toggleEmail() {
+      const emailDiv = document.getElementById("email");
+      emailDiv.innerText = emailShown ? "Show my email" : "kappalar1@udayton.edu";
+      emailShown = !emailShown;
+    }
+
+    // Analog Clock
+    function drawAnalogClock() {
+      const canvas = document.getElementById("analog-clock");
+      const ctx = canvas.getContext("2d");
+      const radius = canvas.height / 2;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.translate(radius, radius);
+
+      // Clock Face
+      ctx.beginPath();
+      ctx.arc(0, 0, radius * 0.95, 0, 2 * Math.PI);
+      ctx.fillStyle = "white";
+      ctx.fill();
+      ctx.stroke();
+
+      // Numbers
+      ctx.font = radius * 0.15 + "px arial";
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center";
+      for (let num = 1; num <= 12; num++) {
+        let ang = num * Math.PI / 6;
+        ctx.rotate(ang);
+        ctx.translate(0, -radius * 0.85);
+        ctx.rotate(-ang);
+        ctx.fillText(num.toString(), 0, 0);
+        ctx.rotate(ang);
+        ctx.translate(0, radius * 0.85);
+        ctx.rotate(-ang);
+      }
+
+      const now = new Date();
+      let hour = now.getHours();
+      let minute = now.getMinutes();
+      let second = now.getSeconds();
+
+      let hourPos = (hour % 12) * Math.PI / 6 + minute * Math.PI / (6 * 60);
+      drawHand(ctx, hourPos, radius * 0.5, 6);
+      let minutePos = minute * Math.PI / 30;
+      drawHand(ctx, minutePos, radius * 0.8, 4);
+      let secondPos = second * Math.PI / 30;
+      drawHand(ctx, secondPos, radius * 0.9, 2, "red");
+
+      ctx.restore();
+    }
+
+    function drawHand(ctx, pos, length, width, color = "black") {
+      ctx.beginPath();
+      ctx.lineWidth = width;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = color;
+      ctx.moveTo(0, 0);
+      ctx.rotate(pos);
+      ctx.lineTo(0, -length);
+      ctx.stroke();
+      ctx.rotate(-pos);
+    }
+
+    setInterval(drawAnalogClock, 1000);
+    drawAnalogClock();
+
+    // Escape HTML (security)
+    function escapeHTML(str) {
+      return str.replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+    }
+
+    // Joke of the Day
+    $.get("https://v2.jokeapi.dev/joke/Programming?type=single", function (result) {
+      const safeJoke = escapeHTML(result.joke);
+      $("#response").html("A Programming Joke of the Day: <b>" + safeJoke + "</b>");
+    });
+
+    // Ajax Echo
+    function getEcho() {
+      const input = document.getElementById("data").value;
+      if (!/^[a-zA-Z0-9\s]+$/.test(input)) {
+        alert("Invalid input! Only letters, numbers, and spaces allowed.");
+        return;
+      }
+      const xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+          document.getElementById("response").innerText = "Response From Server: " + this.responseText;
+        }
+      };
+      xhttp.open("GET", "echo.php?data=" + encodeURIComponent(input), true);
+      xhttp.send();
+    }
+
+    // Guess Age using agify.io API
+    function guessAge(name) {
+      if (!name || !/^[a-zA-Z]+$/.test(name)) {
+        alert("Please enter a valid name (letters only)");
+        return;
+      }
+
+      $.get(`https://api.agify.io?name=${encodeURIComponent(name)}`, function (data) {
+        if (data.age) {
+          document.getElementById("response").innerHTML = `Estimated age for <b>${name}</b>: <b>${data.age}</b> years`;
+        } else {
+          document.getElementById("response").innerHTML = `Could not estimate age for <b>${name}</b>`;
+        }
+      }).fail(function () {
+        document.getElementById("response").innerHTML = "Error contacting age prediction API.";
+      });
+    }
+
+    // Placeholders for other buttons
+    function jQueryAjax() {
+      alert("jQuery GET simulated!");
+    }
+
+    function jQueryAjaxPost() {
+      alert("jQuery POST simulated!");
+    }
+  </script>
+
+</body>
+</html>

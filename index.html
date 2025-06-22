@@ -1,1 +1,216 @@
-Hi Sample Index File
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Raja Narendra Kumar Kappala | Cloud & DevOps Engineer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: no-repeat center center fixed;
+      background-size: cover;
+      padding-top: 50px;
+      animation: fadeIn 1.2s ease-in;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .headshot {
+      width: 140px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .card {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      padding: 25px;
+    }
+    #visitMessage {
+      color: #0d6efd;
+      font-weight: 500;
+    }
+    footer { margin-top: 40px; }
+    a { text-decoration: none; }
+    .btn-outline-secondary { border-radius: 25px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div id="visitMessage" class="text-center mb-4"></div>
+
+  <div class="card text-center">
+    <h1 class="mb-1">Raja Narendra Kumar Kappala</h1>
+    <p class="text-muted">Cloud & DevOps Engineer | MSCS @ University of Dayton</p>
+    <img src="images/myheadshot.jpeg" alt="My Headshot" class="headshot mt-2">
+    <div class="mt-3">
+      <a href="#" onclick="toggleEmail()">Show Email</a> |
+      <a href="https://www.linkedin.com/in/rajanarendrakumar" target="_blank">LinkedIn</a>
+    </div>
+    <p id="email" class="mt-2" style="display:none;">kappalar1@gmail.com</p>
+  </div>
+
+  <div class="card">
+    <h3>About Me</h3>
+    <p>
+      I’m a results-oriented Cloud Engineer with experience in AWS, DevOps, CI/CD, and infrastructure automation.
+      Currently pursuing my MS in Computer Science at the University of Dayton with a 4.0 GPA.
+      Passionate about designing scalable and secure cloud systems.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Resume</h3>
+    <a class="btn btn-primary" href="NeuroSonic_founding_engineer.pdf" target="_blank">Download Resume</a>
+  </div>
+
+  <div class="card">
+    <h3>Skills</h3>
+    <div class="row">
+      <div class="col-md-6 text-start">
+        <ul>
+          <li>AWS (EC2, S3, Lambda, IAM, RDS)</li>
+          <li>Terraform, CloudFormation</li>
+          <li>CI/CD: GitHub Actions, Jenkins</li>
+        </ul>
+      </div>
+      <div class="col-md-6 text-start">
+        <ul>
+          <li>Python, Bash, Linux</li>
+          <li>Monitoring: Prometheus, Grafana</li>
+          <li>Docker, Kubernetes (EKS)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Experience</h3>
+    <p><strong>AWS Cloud Engineer Intern – LTI</strong><br>
+      Built hybrid cloud pipelines, CI/CD automation using GitHub Actions, and real-time monitoring with Prometheus and Grafana.</p>
+    <p><strong>AWS Architect Intern – AGT</strong><br>
+      Designed and implemented secure AWS infrastructure with IAM roles, EC2, and S3 lifecycle policies to reduce cost and improve scalability.</p>
+  </div>
+
+  <div class="card text-center">
+    <h3>Fun Graphic from XKCD</h3>
+    <p id="comic-title"></p>
+    <img id="comic-img" src="" alt="XKCD Comic" class="img-fluid" style="max-height: 400px;">
+  </div>
+
+  <div class="card text-center">
+    <h3>Live Weather</h3>
+    <p id="weather-location">Loading...</p>
+    <img id="weather-icon" src="" alt="Weather Icon" style="height: 60px;">
+    <p id="weather-temp"></p>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="waph.html" class="btn btn-outline-secondary">View Web Application Programming and Hacking Course</a>
+  </div>
+
+  <div class="text-center mt-5">
+    <p class="text-muted small">Visitor Count</p>
+    <a href="https://info.flagcounter.com/q6AL">
+      <img src="https://s05.flagcounter.com/count2/q6AL/bg_FFFFFF/txt_000000/border_CCCCCC/columns_6/maxflags_12/viewers_0/labels_1/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0">
+    </a>
+  </div>
+</div>
+
+<script>
+  function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + "=" + encodeURIComponent(value) + "; expires=" + expires + "; path=/";
+  }
+
+  function getCookie(name) {
+    return document.cookie.split("; ").reduce((r, v) => {
+      const parts = v.split("=");
+      return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+    }, "");
+  }
+
+  function checkVisit() {
+    const lastVisit = getCookie("lastVisit");
+    const now = new Date().toString();
+    const messageDiv = document.getElementById("visitMessage");
+
+    if (lastVisit) {
+      messageDiv.innerHTML = `Welcome back! Your last visit was <b>${lastVisit}</b>`;
+    } else {
+      messageDiv.innerHTML = `Welcome to my homepage for the first time!`;
+    }
+
+    setCookie("lastVisit", now, 365);
+  }
+
+  function toggleEmail() {
+    const email = document.getElementById("email");
+    email.style.display = email.style.display === "none" ? "block" : "none";
+  }
+
+  async function fetchNasaImage() {
+    try {
+      const response = await fetch("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&count=1");
+      const data = await response.json();
+      const imgUrl = data[0].url;
+
+      if (data[0].media_type === "image") {
+        document.body.style.backgroundImage = `url('${imgUrl}')`;
+      } else {
+        document.body.style.backgroundImage = 'url("https://www.nasa.gov/sites/default/files/thumbnails/image/nasa-logo-web-rgb.png")';
+      }
+    } catch (err) {
+      document.body.style.backgroundImage = 'url("https://www.nasa.gov/sites/default/files/thumbnails/image/nasa-logo-web-rgb.png")';
+    }
+  }
+
+  async function loadXkcdComic() {
+    try {
+      const latest = await fetch("https://xkcd.vercel.app/?comic=latest");
+      const latestData = await latest.json();
+      const max = latestData.num;
+      const randomNum = Math.floor(Math.random() * max) + 1;
+      const random = await fetch(`https://xkcd.vercel.app/?comic=${randomNum}`);
+      const comic = await random.json();
+
+      document.getElementById("comic-img").src = comic.img;
+      document.getElementById("comic-title").innerText = comic.title;
+    } catch (error) {
+      document.getElementById("comic-title").innerText = "Failed to load comic.";
+    }
+  }
+
+  async function loadWeather() {
+    const apiKey = "20ce814e7e38475cae0366238a4f2a87";
+    const city = "Dayton,OH";
+    const url = `https://api.weatherbit.io/v2.0/current?city=${city}&key=${apiKey}`;
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+
+    try {
+      const res = await fetch(proxyUrl);
+      const data = await res.json();
+      const weather = data.data[0];
+
+      document.getElementById("weather-location").innerText = `${weather.city_name}, ${weather.country_code}`;
+      document.getElementById("weather-temp").innerText = `Temperature: ${weather.temp}°C`;
+      document.getElementById("weather-icon").src = `https://www.weatherbit.io/static/img/icons/${weather.weather.icon}.png`;
+    } catch (e) {
+      document.getElementById("weather-location").innerText = "Failed to load weather.";
+    }
+  }
+
+  checkVisit();
+  fetchNasaImage();
+  loadXkcdComic();
+  loadWeather();
+  setInterval(fetchNasaImage, 60000);
+</script>
+
+</body>
+</html>
